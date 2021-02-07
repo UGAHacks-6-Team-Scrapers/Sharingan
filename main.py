@@ -29,13 +29,14 @@ def main():
                 pygame.quit()
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:# optional exit with escape key
+                if event.key == pygame.K_ESCAPE: #optional exit with escape key
                     pygame.image.save(DISPLAY, "test.png") #saves drawing before quiting
                     pygame.quit()
                     raise SystemExit
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 randomSingleGazeShape(DISPLAY, infoObject, pos[0], pos[1])
+            
         pygame.display.update()
 
 
