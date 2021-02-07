@@ -41,11 +41,12 @@ def main():
 
                     # We send this frame to GazeTracking to analyze it
                     gaze.refresh(frame)
-                    hRatio = 1 - gaze.horizontal_ratio()
-                    vRatio = gaze.vertical_ratio()
-                    x = hRatio * infoObject.current_w
-                    y = vratio * infoObject.current_h
-                    randomSingleGazeShape(DISPLAY, infoObject, x, y)
+                    if gaze.pupils_located:
+                        hRatio = 1 - gaze.horizontal_ratio()
+                        vRatio = gaze.vertical_ratio()
+                        x = int(hRatio * infoObject.current_w)
+                        y = int(vRatio * infoObject.current_h)
+                        randomSingleGazeShape(DISPLAY, infoObject, x, y)
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 randomSingleGazeShape(DISPLAY, infoObject, pos[0], pos[1])
