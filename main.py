@@ -21,7 +21,29 @@ def main():
     WHITE=(220,220,220)
 
     DISPLAY.fill(WHITE)
-    pygame.draw.circle(DISPLAY, (0,0,0),(infoObject.current_w/2, infoObject.current_h/2), 1) 
+    pygame.draw.circle(DISPLAY, (0,0,0),(0, infoObject.current_h/2), 20, 5) 
+    i = 0
+    while True:
+        for event in pygame.event.get():
+            if event.type ==pygame.KEYDOWN:
+                if event.key == pygame.K_RETURN:
+                    if (i == 0):
+                        leftMax = 1 - gaze.horizontal_ratio()
+                        DISPLAY.fill(WHITE)
+                        pygame.draw.circle(DISPLAY, (0,0,0),(infoObject.current_w, infoObject.current_h/2), 20, 5)
+                    elif (i == 1):
+                        rightMax = 1 - gaze.horizontal_ratio()
+                        DISPLAY.fill(WHITE)
+                        pygame.draw.circle(DISPLAY, (0,0,0),(infoObject.current_w/2, 0), 20, 5)
+                    elif (i == 2):
+                        topMax = gaze.vertical_ratio()
+                        DISPLAY.fill(WHITE)
+                        pygame.draw.circle(DISPLAY, (0,0,0),(infoObject.current_w/2, infoObject.current_h), 20, 5)
+                    elif (i == 3):
+                        bottomMax = gaze.vertical_ratio()
+                        DISPLAY.fill(WHITE)
+                    i = i + 1
+    
     pygame.draw.circle(DISPLAY, (0,0,0),(infoObject.current_w/2, infoObject.current_h/2), 20, 5) 
     #record center of screen, then fill screen
 
