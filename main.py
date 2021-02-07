@@ -17,11 +17,9 @@ def main():
     WHITE=(220,220,220)
 
     DISPLAY.fill(WHITE)
-    randomSingleGazeShape(DISPLAY, infoObject, 100, 100)
-    pygame.draw.rect(DISPLAY, (0,0,0),(0,0, 100,100), 1) #tests
-    pygame.draw.rect(DISPLAY, (0,0,0),(0,0 ,1000,600), 1)
-    randomSingleGazeShape(DISPLAY, infoObject, 1000, 600)
-
+    pygame.draw.circle(DISPLAY, (0,0,0),(infoObject.current_w/2, infoObject.current_h/2), 1) 
+    pygame.draw.circle(DISPLAY, (0,0,0),(infoObject.current_w/2, infoObject.current_h/2), 20, 5) 
+    #record center of screen, then fill screen
 
     while True:
         for event in pygame.event.get():
@@ -33,6 +31,10 @@ def main():
                     pygame.image.save(DISPLAY, "test.png") #saves drawing before quiting
                     pygame.quit()
                     raise SystemExit
+                elif event.key == pygame.K_RETURN:
+                    pygame.quit()
+                    #methodcall for position of eyes
+                    #randomSingleGazeShape(DISPLAY, infoObject, x, y)
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 randomSingleGazeShape(DISPLAY, infoObject, pos[0], pos[1])
@@ -51,8 +53,6 @@ def randomSingleGazeShape(DISPLAY, infoObject, x, y):
     ranH = random.randint(30, 50)
     
     ranRadius = random.randint(15, 40)
-
-
 
     if (ranShape == 0): #shortline single or triple
         ranLength = random.randint(20, 100)
