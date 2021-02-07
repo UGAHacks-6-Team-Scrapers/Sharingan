@@ -33,11 +33,14 @@ def approxDist(p36, p39, p42, p45):
 
     return math.pow(edgeDist, -1) * DIST_MOD
 
-def lookCoords(horizontal, vertical):
-    x = horizontal * 1919
-    y = vertical * 1079
+def lookCoords(dist, x, y, h, v):
+    h = (2*h) - 1
+    v = (2*v) - 1
 
-    cv2.putText(frame, "Look location:  " + str(x) + ", " + str(y), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
+    lookX = x + (dist / math.cos(h * (math.pi/4)))
+    lookY = y + (dist / math.cos(v * (math.pi/4)))
+
+    return lookX, lookY
 
 while True:
     _, frame = cap.read()
@@ -58,9 +61,12 @@ while True:
             y = landmarks.part(i).y
             cv2.circle(frame, (x, y), 3, (255, 0, 0), -1)
 
-        print(approxDist(landmarks.part(36), landmarks.part(39), landmarks.part(42), landmarks.part(45)))
-
-        print(lookCoords(gaze.horizontal_ratio(), gaze.vertical_ratio()))
+        dist = approxDist(landmarks.part(36), landmarks.part(39), landmarks.part(42), landmarks.part(45))
+        eyeX = (gaze.pupil_left_coords()[0] + gaze.pupil_right_coords()[0]) / 2
+        eyeY = (gaze.pupil_left_coords()[1] + gaze.pupil_right_coords()[1]) / 2
+        look = lookCoords(dist, eyeX, eyeY, gaze.horizontal_ratio(), gaze.vertical_ratio())
+        print(look)
+        
 
     #Webcam + tracking display
     cv2.imshow("Frame", frame)

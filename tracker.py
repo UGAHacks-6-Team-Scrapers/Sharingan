@@ -52,10 +52,13 @@ def approxDist(p36, p39, p42, p45):
 
     return math.pow(edgeDist, -1) * DIST_MOD
 
-def lookCoords(lookDist, horizontal, vertical):
-    x = horizontal * 1919
-    y = vertical * 1079
+def lookCoords(dist, x, y, h, v):
+    h = (2*h) - 1
+    v = (2*v) - 1
 
-    cv2.putText(frame, "Left pupil:  " + str(x), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
-    cv2.putText(frame, "Right pupil: " + str(y), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
+    lookX = x + (dist / math.cos(h * (math.pi/4))
+    looky = y + (dist / math.cos(v * (math.pi/4))
+
+    return lookX, lookY
+
 
