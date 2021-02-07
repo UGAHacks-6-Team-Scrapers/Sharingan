@@ -9,11 +9,6 @@ from gaze_tracking import GazeTracking
 def main():
     gaze = GazeTracking()
     webcam = cv2.VideoCapture(0)
-    """ print("1 - single gaze shape consturction")
-    print("2 - double gaze shape construction")
-    print("3 - constant gaze drawing")
-    print("Choose drawmode: ")"""
-    #record input then use if else to determine which while loop
     pygame.init()
     infoObject = pygame.display.Info()
     DISPLAY=pygame.display.set_mode((infoObject.current_w, infoObject.current_h),0,0) 
@@ -32,10 +27,9 @@ def main():
                     pygame.quit()
                     raise SystemExit
                 elif event.key == pygame.K_RETURN:
-                    # We get a new frame from the webcam
+                    # gets new frame from the webcam
                     _, frame = webcam.read()
-
-                    # We send this frame to GazeTracking to analyze it
+                    # sends frame to GazeTracking to analyze it
                     gaze.refresh(frame)
                     if gaze.pupils_located:
                         hRatio = 1 - (gaze.horizontal_ratio() * 2 - 0.6)
@@ -52,7 +46,6 @@ def main():
                 randomSingleGazeShape(DISPLAY, infoObject, pos[0], pos[1])
             
         pygame.display.update()
-
 
 
 def randomSingleGazeShape(DISPLAY, infoObject, x, y):
@@ -237,16 +230,4 @@ def randomSingleGazeShape(DISPLAY, infoObject, x, y):
             ranRadius = random.randint(100,200)
             pygame.draw.circle(DISPLAY, (ranRed, ranGreen, ranBlue),(x,y), ranRadius, ranThick)
 
-def randomDoubleGazeShape(x1, y1, x2, y2):
-    ranShape = random.randint(0,5)
-    if (ranShape == 0): #line
-        print("tex")
-    elif (ranShape == 1): #circle
-        print("tex")
-    elif (ranShape == 2): #rectangle
-        print("tex")
-    elif (ranShape == 3): #triangle
-        print("tex")
-    elif (ranShape == 4): #arc
-        print("tex")
 main()
