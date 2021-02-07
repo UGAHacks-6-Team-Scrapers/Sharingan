@@ -1,21 +1,23 @@
 import cv2
-import numpy as np
+import numpy
+import pyautogui
 import dlib
-import keyboard as kyb
+import math
+from gaze_tracking import GazeTracking
 
-#Opens the webcam. (The first if you have several.)
-cap = cv2.VideoCapture(0)
-ret, img = cap.read()
-
-detector = dlib.get_frontal_face_detector() #Face detection algorithm.
-predictor = dlib.shape_predictor("assets/shape_predictor_68_face_landmarks.dat") #Uses model to generate 67 landmark points.
+DIST_MOD = 12.0/.0198
 
 left = [36, 37, 38, 39, 40, 41] #Left eye landmark points.
 right = [42, 43, 44, 45, 46, 47] #Right eye landmark points.
 
+cap = cv2.VideoCapture(0)
 
-while True:
-    _, frame = cap.read()
+detector = dlib.get_frontal_face_detector() #Face detection algorithm.
+predictor = dlib.shape_predictor("assets/shape_predictor_68_face_landmarks.dat") #Uses model to generate 67 landmark points.
+
+def runtime(webcam, detector, predictor):
+    _, frame = webcam.read()
+
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     faces = detector(gray)
@@ -29,9 +31,34 @@ while True:
             y = landmarks.part(i).y
             cv2.circle(frame, (x, y), 3, (255, 0, 0), -1)
 
+            
+        print(approxDist(landmarks.part(36), landmarks.part(39), landmarks.part(42), landmarks.part(45)))
+
     #Webcam + tracking display
     cv2.imshow("Frame", frame)
 
     key = cv2.waitKey(1)
-    if(kyb.is_pressed("space")):
-        break
+
+#Takes the landmark points associated with eye edges to approx distance
+#P36 = left eye left point
+#P39 = left eye right point
+#P42 = right eye left point
+#P45 = right eye right point
+def approxDist(p36, p39, p42, p45):
+    leftEdgeDist = math.sqrt((p36.x - p39.x)**2 + (p36.y - p39.y)**2)
+    rightEdgeDist = math.sqrt((p42.x - p45.x)**2 + (p42.y - p45.y)**2)
+
+    edgeDist = (leftEdgeDist + rightEdgeDist) / 2
+
+    return math.pow(edgeDist, -1) * DIST_MOD
+
+def lookCoords(dist, x, y, h, v):
+    h = (2*h) - 1
+    v = (2*v) - 1
+
+    lookX = x + (dist / math.cos(h * (math.pi/4))
+    looky = y + (dist / math.cos(v * (math.pi/4))
+
+    return lookX, lookY
+
+
