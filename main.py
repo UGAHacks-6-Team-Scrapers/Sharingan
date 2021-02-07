@@ -38,8 +38,12 @@ def main():
                     # We send this frame to GazeTracking to analyze it
                     gaze.refresh(frame)
                     if gaze.pupils_located:
-                        hRatio = 1 - gaze.horizontal_ratio()
-                        vRatio = gaze.vertical_ratio()
+                        hRatio = 1 - (gaze.horizontal_ratio() * 2 - 0.6)
+                        vRatio = gaze.vertical_ratio() * 2 - 0.8
+                        if hRatio < 0: hRatio = 0
+                        if hRatio > 1: hRatio = 1
+                        if vRatio < 0: vRatio = 0
+                        if vRatio > 1: vRatio = 1
                         x = int(hRatio * infoObject.current_w)
                         y = int(vRatio * infoObject.current_h)
                         randomSingleGazeShape(DISPLAY, infoObject, x, y)

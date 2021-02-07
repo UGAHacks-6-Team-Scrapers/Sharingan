@@ -36,8 +36,10 @@ while True:
     #cv2.putText(frame, "Right pupil: " + str(right_pupil), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
     h, v = None, None
     if gaze.pupils_located:
-        h = gaze.horizontal_ratio() * (5/3) - 1/3
-        v = gaze.vertical_ratio() * (5/3) - 1/3
+        h = gaze.horizontal_ratio() * 2 - 0.6
+        v = gaze.vertical_ratio() * 2 - 0.8
+    #h = gaze.horizontal_ratio()
+    #v = gaze.vertical_ratio()
     cv2.putText(frame, "Horizontal:  " + str(h), (90, 130), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
     cv2.putText(frame, "Vertical: " + str(v), (90, 165), cv2.FONT_HERSHEY_DUPLEX, 0.9, (147, 58, 31), 1)
 
