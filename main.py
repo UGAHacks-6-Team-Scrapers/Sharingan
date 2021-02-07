@@ -23,7 +23,7 @@ def main():
                 sys.exit()
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE: #optional exit with escape key
-                    pygame.image.save(DISPLAY, "test.png") #saves drawing before quiting
+                    pygame.image.save(DISPLAY, "art.png") #saves drawing before quiting
                     pygame.quit()
                     raise SystemExit
                 elif event.key == pygame.K_RETURN:
