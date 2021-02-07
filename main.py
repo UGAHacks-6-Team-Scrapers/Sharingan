@@ -2,9 +2,13 @@ import pygame, sys
 import random
 
 from pygame.locals import *
+import cv2
+from gaze_tracking import GazeTracking
+
 
 def main():
-    
+    gaze = GazeTracking()
+    webcam = cv2.VideoCapture(0)
     """ print("1 - single gaze shape consturction")
     print("2 - double gaze shape construction")
     print("3 - constant gaze drawing")
@@ -32,9 +36,16 @@ def main():
                     pygame.quit()
                     raise SystemExit
                 elif event.key == pygame.K_RETURN:
-                    pygame.quit()
-                    #methodcall for position of eyes
-                    #randomSingleGazeShape(DISPLAY, infoObject, x, y)
+                    # We get a new frame from the webcam
+                    _, frame = webcam.read()
+
+                    # We send this frame to GazeTracking to analyze it
+                    gaze.refresh(frame)
+                    hRatio = 1 - gaze.horizontal_ratio()
+                    vRatio = gaze.vertical_ratio()
+                    x = hRatio * infoObject.current_w
+                    y = vratio * infoObject.current_h
+                    randomSingleGazeShape(DISPLAY, infoObject, x, y)
             elif event.type == pygame.MOUSEBUTTONUP:
                 pos = pygame.mouse.get_pos()
                 randomSingleGazeShape(DISPLAY, infoObject, pos[0], pos[1])
