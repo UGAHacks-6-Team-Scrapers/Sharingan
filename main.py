@@ -1,15 +1,14 @@
 import pygame, sys
 import random
 
-
 from pygame.locals import *
 
 def main():
     
-    print("1 - single gaze shape consturction")
+    """ print("1 - single gaze shape consturction")
     print("2 - double gaze shape construction")
     print("3 - constant gaze drawing")
-    print("Choose drawmode: ")
+    print("Choose drawmode: ")"""
     #record input then use if else to determine which while loop
     pygame.init()
     infoObject = pygame.display.Info()
@@ -18,29 +17,31 @@ def main():
     WHITE=(220,220,220)
 
     DISPLAY.fill(WHITE)
-
-    #pygame.draw.rect(DISPLAY,(170, 170, 170),(0,0,infoObject.current_w, infoObject.current_h), 100)
     randomSingleGazeShape(DISPLAY, infoObject, 100, 100)
-    pygame.draw.rect(DISPLAY, (0,0,0),(0,0, 100,100), 1)
-    """randomSingleGazeShape(DISPLAY, 100, 200)
-    randomSingleGazeShape(DISPLAY, 230, 400)
-    randomSingleGazeShape(DISPLAY, 600, 60)
-    randomSingleGazeShape(DISPLAY, 800, 40)"""
+    pygame.draw.rect(DISPLAY, (0,0,0),(0,0, 100,100), 1) #tests
     pygame.draw.rect(DISPLAY, (0,0,0),(0,0 ,1000,600), 1)
     randomSingleGazeShape(DISPLAY, infoObject, 1000, 600)
 
 
     while True:
         for event in pygame.event.get():
-            if event.type==QUIT: #implemt a way to quit, with eyes maybe
+            if event.type==QUIT:
                 pygame.quit()
                 sys.exit()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:# optional exit with escape key
+                    pygame.image.save(DISPLAY, "test.png") #saves drawing before quiting
+                    pygame.quit()
+                    raise SystemExit
+            elif event.type == pygame.MOUSEBUTTONUP:
+                pos = pygame.mouse.get_pos()
+                randomSingleGazeShape(DISPLAY, infoObject, pos[0], pos[1])
         pygame.display.update()
 
 
 
 def randomSingleGazeShape(DISPLAY, infoObject, x, y):
-    ranShape = random.randint(1,1) #change back
+    ranShape = random.randint(0,6) 
     ranRed = random.randint(0, 255)
     ranGreen = random.randint(0, 255)
     ranBlue = random.randint(0, 255)
@@ -53,7 +54,6 @@ def randomSingleGazeShape(DISPLAY, infoObject, x, y):
 
 
     if (ranShape == 0): #shortline single or triple
-        #ranThick = random.randint(15, 50)
         ranLength = random.randint(20, 100)
         ranBool = random.randint(0,2)
         if (ranBool == 0):
